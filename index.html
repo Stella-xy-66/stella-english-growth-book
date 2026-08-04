@@ -15,7 +15,7 @@
     html{scroll-behavior:smooth}
     body{margin:0;background:linear-gradient(180deg,#fff8f1 0,#f7f4ef 100%);color:var(--ink);
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-      line-height:1.65}
+      line-height:1.65;-webkit-text-size-adjust:100%;text-size-adjust:100%}
     button,input{font:inherit}
     .hero{padding:44px 20px 34px;background:
       radial-gradient(circle at 88% 15%,rgba(233,111,85,.15),transparent 30%),
@@ -56,6 +56,7 @@
     table{width:100%;border-collapse:collapse;font-size:.94rem}
     th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
     th{color:var(--muted);font-size:.8rem;text-transform:uppercase}
+    #topics td:nth-child(2){font-family:inherit;font-size:.94rem;font-weight:400;line-height:1.65}
     .error{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
     .wrong,.right{padding:12px;border-radius:12px}
     .wrong{background:#fff0ef}.right{background:#e9f4ee}
@@ -69,6 +70,11 @@
       .hero{padding-top:32px}.quick{grid-template-columns:1fr}.index{grid-template-columns:1fr}
       .panel{padding:17px;border-radius:18px}.error{grid-template-columns:1fr}
       table{display:block;overflow-x:auto;white-space:nowrap}
+      #topics table{display:table;overflow:visible;white-space:normal;table-layout:fixed}
+      #topics th,#topics td{overflow-wrap:anywhere;word-break:normal}
+      #topics th:nth-child(1),#topics td:nth-child(1){width:31%}
+      #topics th:nth-child(2),#topics td:nth-child(2){width:51%}
+      #topics th:nth-child(3),#topics td:nth-child(3){width:18%}
     }
     @media print{.sticky,.quick,.toolbar{display:none}.panel{box-shadow:none;break-inside:avoid}body{background:white}}
   </style>

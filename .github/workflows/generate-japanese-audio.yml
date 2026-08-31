@@ -27,5 +27,6 @@ jobs:
           git add japanese/audio
           if ! git diff --cached --quiet; then
             git commit -m "Generate Japanese male and female audio"
+            git pull --rebase origin main
             git push
           fi

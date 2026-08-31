@@ -22,14 +22,14 @@
 </head>
 <body>
   <header><a class="brand" href="#today"><span class="logo">あ</span><span><b>Stella 日语成长手册</b><small>JAPANESE SPEAKING GROWTH BOOK</small></span></a><nav><a href="#lessons">每日课程</a><a href="#kana">五十音图</a></nav></header>
-  <section class="hero" id="today"><div class="eyebrow">CURRENT LESSON · DAY 2</div><div class="hero-grid"><div><p class="kicker">今日跟读</p><h1>か行与旅行购物</h1><p class="lead">学会询问“这是什么”，并在店里表达“请给我这个”。先听自然示范，再用慢速模式逐句跟读。</p><div class="stats"><span><b>2</b>天课程</span><span><b>8</b>个发音</span><span><b>每日</b>持续更新</span></div></div><aside class="player"><div class="player-top"><span>跟读音频</span><span class="ready">● 日语语音</span></div><span class="control-label">示范音色</span><div class="voice-choice"><button class="active" data-voice="female">女声示范</button><button data-voice="male">男声示范</button></div><p class="voice-note" id="voice-note">正在选择最佳日语音色…</p><span class="control-label">播放速度</span><div class="speed"><button class="active" data-rate="0.68">慢速跟读<br><small>0.7×</small></button><button data-rate="0.92">自然示范<br><small>1.0×</small></button></div><button class="play-all" id="today-play">▶ 播放今日全部内容</button><button class="stop" onclick="speechSynthesis.cancel()">停止播放</button></aside></div><div class="learned"><span>已学习</span><b>あ い う え お</b><i></i><b>か き く け こ</b></div></section>
+  <section class="hero" id="today"><div class="eyebrow">CURRENT LESSON · DAY 2</div><div class="hero-grid"><div><p class="kicker">今日跟读</p><h1>か行与旅行购物</h1><p class="lead">学会询问“这是什么”，并在店里表达“请给我这个”。先听自然示范，再用慢速模式逐句跟读。</p><div class="stats"><span><b>2</b>天课程</span><span><b>8</b>个发音</span><span><b>每日</b>持续更新</span></div></div><aside class="player"><div class="player-top"><span>跟读音频</span><span class="ready">● 独立日语音频</span></div><span class="control-label">示范音色</span><div class="voice-choice"><button class="active" data-voice="female">自然女声</button><button data-voice="male">自然男声</button></div><p class="voice-note" id="voice-note">当前使用：自然女声</p><span class="control-label">播放速度</span><div class="speed"><button class="active" data-rate="0.68">慢速跟读<br><small>0.8×</small></button><button data-rate="0.92">自然示范<br><small>1.0×</small></button></div><button class="play-all" id="today-play">▶ 播放今日全部内容</button><button class="stop" onclick="stopAll()">停止播放</button></aside></div><div class="learned"><span>已学习</span><b>あ い う え お</b><i></i><b>か き く け こ</b></div></section>
   <main id="lessons"><div class="section-head"><div><p class="kicker">DAILY LESSONS</p><h2>每日课程</h2></div><p>按日期保存发音、旅行句型和个人易错点。每次学习后，新的 Day 会继续加入这里。</p></div><div class="lessons" id="lesson-list"></div></main>
   <main id="kana"><div class="section-head"><div><p class="kicker">假名发音表</p><h2>完整五十音图</h2></div><p>点击任意假名即可听读音。建议先学平假名，再切换片假名复习。</p></div><div class="toolbar"><div class="switch"><button class="active" data-script="0">平假名</button><button data-script="1">片假名</button></div><small>🔊 每个假名均可播放</small></div><div id="kana-groups"></div></main>
   <section class="review"><div><b>每天 10 分钟，先听再说</b><p>听一遍 → 跟读两遍 → 不看发音提示再读一遍。</p></div><a href="#today">回到今日课程</a></section>
   <footer><b>すこしずつ、毎日。</b><p>一点一点，每天进步。为 Stella 的日本旅行持续更新。</p></footer>
   <nav class="mobile-nav"><a href="#today">今日跟读</a><a href="#lessons">每日课程</a><a href="#kana">五十音</a></nav>
   <script>
-    let rate=.68,script=0,voiceGender='female',japaneseVoices=[];
+    let rate=.68,script=0,voiceGender='female',currentAudio=null,queueToken=0;
     const lessons=[
       {day:2,title:'か行与旅行购物',sub:'学会询问“这是什么”，并在店里表达“请给我这个”',items:[
         ['か、き、く、け、こ','近似：卡・轻“七”・轻“哭”・短“开”・短“阔”','か行五个假名','く不要读成很重的“库”，气息要轻。'],
@@ -45,33 +45,30 @@
     const basic=[['あ行',[['あ','ア','近似“啊”'],['い','イ','近似“衣”'],['う','ウ','轻“乌”'],['え','エ','近似“诶”'],['お','オ','近似“哦”']]],['か行',[['か','カ','短“卡”'],['き','キ','轻“七”'],['く','ク','轻“哭”'],['け','ケ','短“开”'],['こ','コ','短“阔”']]],['さ行',[['さ','サ','短“撒”'],['し','シ','近似“西”'],['す','ス','轻“苏”'],['せ','セ','短“塞”'],['そ','ソ','短“搜”']]],['た行',[['た','タ','短“他”'],['ち','チ','轻“七”'],['つ','ツ','短“促”'],['て','テ','短“太”'],['と','ト','短“托”']]],['な行',[['な','ナ','短“那”'],['に','ニ','近似“你”'],['ぬ','ヌ','轻“奴”'],['ね','ネ','短“内”'],['の','ノ','短“诺”']]],['は行',[['は','ハ','短“哈”'],['ひ','ヒ','近似“嘻”'],['ふ','フ','轻吹“呼”'],['へ','ヘ','短“嘿”'],['ほ','ホ','短“霍”']]],['ま行',[['ま','マ','短“妈”'],['み','ミ','近似“米”'],['む','ム','轻“木”'],['め','メ','短“妹”'],['も','モ','短“摸”']]],['や行',[['や','ヤ','近似“呀”'],['ゆ','ユ','近似“优”'],['よ','ヨ','近似“哟”']]],['ら行',[['ら','ラ','轻弹舌“啦”'],['り','リ','轻弹舌“哩”'],['る','ル','轻弹舌“噜”'],['れ','レ','轻弹舌“类”'],['ろ','ロ','轻弹舌“啰”']]],['わ行',[['わ','ワ','近似“哇”'],['を','ヲ','近似“哦”'],['ん','ン','鼻音“嗯”']]]];
     const voiced=[['が行',[['が','ガ','短“嘎”'],['ぎ','ギ','短“给”'],['ぐ','グ','短“姑”'],['げ','ゲ','短“盖”'],['ご','ゴ','短“够”']]],['ざ行',[['ざ','ザ','短“杂”'],['じ','ジ','近似“鸡”'],['ず','ズ','短“祖”'],['ぜ','ゼ','短“贼”'],['ぞ','ゾ','短“走”']]],['だ行',[['だ','ダ','短“搭”'],['ぢ','ヂ','近似“鸡”'],['づ','ヅ','短“祖”'],['で','デ','短“呆”'],['ど','ド','短“多”']]],['ば行',[['ば','バ','短“八”'],['び','ビ','近似“比”'],['ぶ','ブ','短“不”'],['べ','ベ','短“贝”'],['ぼ','ボ','短“波”']]],['ぱ行',[['ぱ','パ','短“趴”'],['ぴ','ピ','近似“批”'],['ぷ','プ','短“扑”'],['ぺ','ペ','短“配”'],['ぽ','ポ','短“坡”']]]];
     const contracted=[['きゃ',[['きゃ','キャ'],['きゅ','キュ'],['きょ','キョ']]],['しゃ',[['しゃ','シャ'],['しゅ','シュ'],['しょ','ショ']]],['ちゃ',[['ちゃ','チャ'],['ちゅ','チュ'],['ちょ','チョ']]],['にゃ',[['にゃ','ニャ'],['にゅ','ニュ'],['にょ','ニョ']]],['ひゃ',[['ひゃ','ヒャ'],['ひゅ','ヒュ'],['ひょ','ヒョ']]],['みゃ',[['みゃ','ミャ'],['みゅ','ミュ'],['みょ','ミョ']]],['りゃ',[['りゃ','リャ'],['りゅ','リュ'],['りょ','リョ']]],['ぎゃ',[['ぎゃ','ギャ'],['ぎゅ','ギュ'],['ぎょ','ギョ']]],['じゃ',[['じゃ','ジャ'],['じゅ','ジュ'],['じょ','ジョ']]],['びゃ',[['びゃ','ビャ'],['びゅ','ビュ'],['びょ','ビョ']]],['ぴゃ',[['ぴゃ','ピャ'],['ぴゅ','ピュ'],['ぴょ','ピョ']]]];
-    const femaleNames=/kyoko|nanami|ayumi|haruka|sayaka|mizuki|hikari|nozomi|female|女性/i;
-    const maleNames=/otoya|keita|ichiro|male|男性/i;
-    const qualityNames=/premium|enhanced|natural|neural|siri/i;
-    function loadVoices(){
-      japaneseVoices=speechSynthesis.getVoices().filter(v=>v.lang.toLowerCase().startsWith('ja'));
-      japaneseVoices.sort((a,b)=>Number(qualityNames.test(b.name))-Number(qualityNames.test(a.name)));
-      const chosen=chooseVoice();
-      document.querySelector('#voice-note').textContent=chosen?`当前使用：${voiceGender==='female'?'自然女声':'自然男声'}`:'未检测到日语音色，将使用设备默认语音';
+    const phraseSlugs={'あ、い、う、え、お':'a-row','か、き、く、け、こ':'ka-row','こんにちは':'hello','すみません':'excuse-me','これは何ですか？':'what-is-this','これ、お願いします。':'this-please','ありがとうございます。':'thank-you'};
+    function kanaCode(text){return [...text].map(x=>x.codePointAt(0).toString(16)).join('')}
+    function audioPath(text){const slug=phraseSlugs[text];return slug?`audio/phrase-${slug}-${voiceGender}.mp3`:`audio/kana-${kanaCode(text)}-${voiceGender}.mp3`}
+    function fallbackSpeech(text,done){const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=rate;u.onend=()=>done&&done();speechSynthesis.speak(u)}
+    function playOne(text,done){
+      const audio=new Audio(audioPath(text));let fellBack=false;currentAudio=audio;audio.preload='auto';audio.playbackRate=rate<.8?.78:1;audio.preservesPitch=true;
+      audio.onended=()=>{if(currentAudio===audio)currentAudio=null;done&&done()};
+      const fallback=()=>{if(fellBack)return;fellBack=true;if(currentAudio===audio)currentAudio=null;fallbackSpeech(text,done)};
+      audio.onerror=fallback;audio.play().catch(fallback);
     }
-    function chooseVoice(){
-      if(!japaneseVoices.length)return null;
-      const pattern=voiceGender==='female'?femaleNames:maleNames;
-      const opposite=voiceGender==='female'?maleNames:femaleNames;
-      return japaneseVoices.find(v=>pattern.test(v.name))||japaneseVoices.find(v=>!opposite.test(v.name))||japaneseVoices[voiceGender==='male'&&japaneseVoices.length>1?1:0];
-    }
-    function utter(text){const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=rate;u.pitch=1;const v=chooseVoice();if(v)u.voice=v;return u}
-    function speak(text){speechSynthesis.cancel();speechSynthesis.speak(utter(text))}
-    function playQueue(items,i=0){if(i>=items.length)return;const u=utter(items[i]);u.onend=()=>setTimeout(()=>playQueue(items,i+1),650);speechSynthesis.speak(u)}
-    function renderLessons(){document.querySelector('#lesson-list').innerHTML=lessons.map((l,i)=>`<article class="lesson ${i===0?'open':''}"><button class="lesson-head" onclick="this.parentElement.classList.toggle('open')"><span class="day">Day ${l.day}</span><span class="lesson-title"><b>${l.title}</b><small>${l.sub}</small></span><span class="arrow">⌄</span></button><div class="lesson-body"><div class="lesson-tools"><button onclick='speechSynthesis.cancel();playQueue(${JSON.stringify(l.items.map(x=>x[0]))})'>▶ 整课连播</button><button class="done" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✓ 已完成':'✓ 标记已跟读'">✓ 标记已跟读</button></div><div class="phrases">${l.items.map(x=>`<div class="phrase"><div><div class="jp">${x[0]}</div><div class="cue">${x[1]}</div><div class="zh">${x[2]}</div>${x[3]?`<div class="tip">发音提示 · ${x[3]}</div>`:''}</div><button class="speak" onclick='speak(${JSON.stringify(x[0])})'>▶ <span>播放</span></button></div>`).join('')}</div></div></article>`).join('')}
+    function stopAll(){queueToken++;if(currentAudio){currentAudio.pause();currentAudio.currentTime=0;currentAudio=null}speechSynthesis.cancel()}
+    function speak(text){stopAll();playOne(text)}
+    function playQueue(items,i,token){if(token!==queueToken||i>=items.length)return;playOne(items[i],()=>setTimeout(()=>playQueue(items,i+1,token),500))}
+    function startQueue(items){stopAll();const token=queueToken;playQueue(items,0,token)}
+    function renderLessons(){document.querySelector('#lesson-list').innerHTML=lessons.map((l,i)=>`<article class="lesson ${i===0?'open':''}"><button class="lesson-head" onclick="this.parentElement.classList.toggle('open')"><span class="day">Day ${l.day}</span><span class="lesson-title"><b>${l.title}</b><small>${l.sub}</small></span><span class="arrow">⌄</span></button><div class="lesson-body"><div class="lesson-tools"><button onclick='startQueue(${JSON.stringify(l.items.map(x=>x[0]))})'>▶ 整课连播</button><button class="done" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✓ 已完成':'✓ 标记已跟读'">✓ 标记已跟读</button></div><div class="phrases">${l.items.map(x=>`<div class="phrase"><div><div class="jp">${x[0]}</div><div class="cue">${x[1]}</div><div class="zh">${x[2]}</div>${x[3]?`<div class="tip">发音提示 · ${x[3]}</div>`:''}</div><button class="speak" onclick='speak(${JSON.stringify(x[0])})'>▶ <span>播放</span></button></div>`).join('')}</div></div></article>`).join('')}
     function group(title,desc,rows){return `<section class="kana-group"><div class="kana-title"><div><h3>${title}</h3><p>${desc}</p></div><span>${rows.reduce((n,r)=>n+r[1].length,0)} 音</span></div><div class="kana-rows">${rows.map(r=>`<div class="kana-row"><span class="row-name">${r[0]}</span><div class="kana-cells">${r[1].map(x=>`<button class="kana" onclick="speak('${x[script]}')"><b>${x[script]}</b><small>${x[2]||'拗音·合一拍'}</small></button>`).join('')}</div></div>`).join('')}</div></section>`}
     function renderKana(){document.querySelector('#kana-groups').innerHTML=group('清音','日语发音的基础，包括 46 个常用假名。',basic)+group('浊音与半浊音','在清音上添加浊点或半浊点形成。',voiced)+group('拗音','与小写 ゃ・ゅ・ょ 组合，一拍读完。',contracted)}
     document.querySelectorAll('.speed button').forEach(b=>b.onclick=()=>{rate=+b.dataset.rate;document.querySelectorAll('.speed button').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
-    document.querySelectorAll('.voice-choice button').forEach(b=>b.onclick=()=>{voiceGender=b.dataset.voice;localStorage.setItem('jp-voice',voiceGender);document.querySelectorAll('.voice-choice button').forEach(x=>x.classList.remove('active'));b.classList.add('active');loadVoices();speak(voiceGender==='female'?'こんにちは。':'すみません。')});
+    document.querySelectorAll('.voice-choice button').forEach(b=>b.onclick=()=>{stopAll();voiceGender=b.dataset.voice;localStorage.setItem('jp-voice',voiceGender);document.querySelectorAll('.voice-choice button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelector('#voice-note').textContent=`当前使用：${voiceGender==='female'?'自然女声':'自然男声'}`;speak(voiceGender==='female'?'こんにちは':'すみません')});
     document.querySelectorAll('.switch button').forEach(b=>b.onclick=()=>{script=+b.dataset.script;document.querySelectorAll('.switch button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderKana()});
-    document.querySelector('#today-play').onclick=()=>{speechSynthesis.cancel();playQueue(lessons[0].items.map(x=>x[0]))};
+    document.querySelector('#today-play').onclick=()=>startQueue(lessons[0].items.map(x=>x[0]));
     voiceGender=localStorage.getItem('jp-voice')||'female';document.querySelectorAll('.voice-choice button').forEach(b=>b.classList.toggle('active',b.dataset.voice===voiceGender));
-    renderLessons();renderKana();loadVoices();speechSynthesis.onvoiceschanged=loadVoices;
+    document.querySelector('#voice-note').textContent=`当前使用：${voiceGender==='female'?'自然女声':'自然男声'}`;
+    renderLessons();renderKana();
   </script>
 </body>
 </html>

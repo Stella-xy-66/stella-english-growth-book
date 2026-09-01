@@ -12,11 +12,20 @@ VOICES = {
 PHRASES = {
     "a-row": "あ。い。う。え。お。",
     "ka-row": "か。き。く。け。こ。",
+    "ta-row": "た。ち。つ。て。と。",
     "hello": "こんにちは。",
     "excuse-me": "すみません。",
     "what-is-this": "これは何ですか？",
     "this-please": "これ、お願いします。",
     "thank-you": "ありがとうございます。",
+    "this-that-and": "これ。それ。と。",
+    "give-me-this": "これをください。",
+    "this-and-that-please": "これとそれをお願いします。",
+    "this-and-that-right": "これとそれですね。",
+    "yes-please": "はい、お願いします。",
+    "thanks-casual": "どうも。",
+    "once-more-please": "もう一度お願いします。",
+    "slowly-please": "ゆっくりお願いします。",
 }
 
 KANA = """
